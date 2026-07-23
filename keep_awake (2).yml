@@ -1,0 +1,20 @@
+name: Prevent Streamlit Sleep
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Runs every 6 hours to stay safely ahead of the limit
+  workflow_dispatch:      # Allows you to click the button manually
+
+jobs:
+  keep-awake:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo code
+        uses: actions/checkout@v4
+
+      - name: Push Empty Keep-Alive Commit
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Action Bot"
+          git commit --allow-empty -m "Keep-alive ping"
+          git push
