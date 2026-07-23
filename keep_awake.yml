@@ -1,0 +1,14 @@
+name: Prevent Streamlit Sleep
+
+on:
+  schedule:
+    - cron: '0 */10 * * *' # Automatically runs every 10 hours
+  workflow_dispatch:      # Lets you click a button to run it manually
+
+jobs:
+  keep-awake:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Streamlit App URL
+        run: |
+          curl -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -L --connect-timeout 15 --retry 3 -s https://jizehlnj8zf7gmk8tjavwq.streamlit.app/ > /dev/null
