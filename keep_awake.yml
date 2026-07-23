@@ -1,0 +1,21 @@
+name: Prevent Streamlit Sleep
+on:
+  schedule:
+    - cron: '0 */10 * * *' # Automatically runs every 10 hours
+  workflow_dispatch:      # Lets you click a button to run it manually
+
+jobs:
+  keep-awake:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write     # Gives the robot permission to update your repo
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Push Empty Commit
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          git commit --allow-empty -m "Keep-alive trigger"
+          git push
